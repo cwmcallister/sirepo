@@ -155,9 +155,8 @@
         }
     },
     "model": {
-        "simulation": {
-            "enableParticleTracking": ["Particle Tracking", "Boolean", "0"],
-            "visualizationBeamlineId": ["Beamline", "LatticeBeamlineList", ""]
+        "beamline": {
+            "name": ["Name", "ValidatedString"]
         },
         "beamlineReport": {
             "notes": ["Notes", "Text", ""]
@@ -210,6 +209,10 @@
         },
         "bunchSource": {
             "inputSource": ["Bunch Source", "BunchInputSource", "bunched_beam"]
+        },
+        "simulation": {
+            "enableParticleTracking": ["Particle Tracking", "Boolean", "0"],
+            "visualizationBeamlineId": ["Beamline", "LatticeBeamlineList", ""]
         },
         "command_beam": {
             "particle": ["PARTICLE", "ParticleType", "positron"],
@@ -784,6 +787,12 @@
         }
     },
     "view": {
+        "beamline": {
+            "title": "Beamline",
+            "advanced": [
+                "name"
+            ]
+        },
         "beamlineReport": {
             "title": "Lattice",
             "hasDataFile": false,
