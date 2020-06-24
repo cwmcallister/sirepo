@@ -297,7 +297,9 @@
         },
         "Multispecies": {
             "eos_fil1EosType": "eos_tab",
+            "eos_fil1SubType": "ionmix4",
             "eos_fil2EosType": "eos_tab",
+            "eos_fil2SubType": "ionmix4",
             "eos_fillEosType": "eos_tab",
             "eos_fillGroupName": "-none-",
             "eos_fillSubType": "ionmix4",

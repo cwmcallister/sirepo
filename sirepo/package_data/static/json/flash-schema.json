@@ -810,8 +810,10 @@
         },
         "Multispecies": {
             "eos_fil1EosType": ["Fil1 EOS Type", "Multispecieseos_fillEosType", "-none-"],
+            "eos_fil1SubType": ["Fil1 EOS Subtype", "String", ""],
             "eos_fil2EosType": ["Fil2 EOS Type", "Multispecieseos_fillEosType", "-none-"],
             "eos_fillEosType": ["Fill EOS Type", "Multispecieseos_fillEosType", "-none-"],
+            "eos_fil2SubType": ["Fil2 EOS Subtype", "String", ""],
             "eos_fillGroupName": ["eos_fillGroupName", "String", "-none-"],
             "eos_fillSubType": ["Fill EOS Subtype", "String", ""],
             "eos_fillTableFile": ["Fill Table File", "String", ""],
@@ -1538,15 +1540,15 @@
                             "Multispecies.ms_fillSpecies",
                             "Multispecies.ms_fillA",
                             "Multispecies.ms_fillZ",
+                            "Multispecies.ms_fillZMin",
                             "Multispecies.eos_fillEosType",
-                            "Multispecies.ms_fillZMin"
                         ]],
                         ["Wall", [
                             "Multispecies.ms_wallSpecies",
                             "Multispecies.ms_wallA",
                             "Multispecies.ms_wallZ",
+                            "Multispecies.ms_wallZMin",
                             "Multispecies.eos_wallEosType",
-                            "Multispecies.ms_wallZMin"
                         ]]
                     ],
                     [
@@ -1602,15 +1604,15 @@
                             "Multispecies.ms_fillSpecies",
                             "Multispecies.ms_fillA",
                             "Multispecies.ms_fillZ",
-                            "Multispecies.eos_fillEosType",
-                            "Multispecies.ms_fillZMin"
+                            "Multispecies.ms_fillZMin",
+                            "Multispecies.eos_fillEosType"
                         ]],
                         ["Wall", [
                             "Multispecies.ms_wallSpecies",
                             "Multispecies.ms_wallA",
                             "Multispecies.ms_wallZ",
-                            "Multispecies.eos_wallEosType",
-                            "Multispecies.ms_wallZMin"
+                            "Multispecies.ms_wallZMin",
+                            "Multispecies.eos_wallEosType"
                         ]]
                     ]
                 ]]
