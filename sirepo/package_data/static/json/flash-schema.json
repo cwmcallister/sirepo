@@ -809,6 +809,8 @@
             "wr_integrals_freq": ["wr_integrals_freq", "Integer", 1, "Number of timesteps between writing to flash.dat"]
         },
         "Multispecies": {
+            "eos_fil1EosType": ["Fil1 EOS Type", "Multispecieseos_fillEosType", "-none-"],
+            "eos_fil2EosType": ["Fil2 EOS Type", "Multispecieseos_fillEosType", "-none-"],
             "eos_fillEosType": ["Fill EOS Type", "Multispecieseos_fillEosType", "-none-"],
             "eos_fillGroupName": ["eos_fillGroupName", "String", "-none-"],
             "eos_fillSubType": ["Fill EOS Subtype", "String", ""],
@@ -817,6 +819,12 @@
             "eos_wallGroupName": ["eos_wallGroupName", "String", "-none-"],
             "eos_wallSubType": ["Wall EOS Subtype", "String", ""],
             "eos_wallTableFile": ["Wall Table File", "String", ""],
+            "ms_fil1A": ["Fil1 Protons and Neutrons in Nucleus", "Float", -999.0],
+            "ms_fil1Z": ["Fil1 Atomic Number", "Float", -999.0],
+            "ms_fil1ZMin": ["Fil1 ZMin", "Float", -998.0],
+            "ms_fil2A": ["Fil2 Protons and Neutrons in Nucleus", "Float", -999.0],
+            "ms_fil2Z": ["Fil2 Atomic Number", "Float", -999.0],
+            "ms_fil2ZMin": ["Fil2 ZMin", "Float", -998.0],
             "ms_fillA": ["Fill Protons and Neutrons in Nucleus", "Float", -999.0],
             "ms_fillAElems_1": ["ms_fillAElems_1", "Float", -999.0],
             "ms_fillAElems_2": ["ms_fillAElems_2", "Float", -999.0],
@@ -1479,6 +1487,70 @@
                 "allowDtSTSDominate"
             ]
         },
+        "SimulationCapLaser3D": {
+            "title": "CapLaser 3D Settings",
+            "basic": [
+                ["Main", [
+                    "sim_currType",
+                    "sim_currFile",
+                    "sim_peakCurr",
+                    "sim_riseTime",
+                    "sim_zminWall",
+                    "physicssourceTermsHeatexchange.useHeatExchange",
+                    [
+                        ["Fill", [
+                            "sim_eosFill",
+                            "sim_rhoFill",
+                            "sim_teleFill",
+                            "sim_tionFill",
+                            "sim_tradFill"
+                        ]],
+                        ["Wall", [
+                            "sim_eosWall",
+                            "sim_rhoWall",
+                            "sim_teleWall",
+                            "sim_tionWall",
+                            "sim_tradWall"
+                        ]]
+                    ]
+                ]],
+                ["Multispecies", [
+                    [
+                        ["Fill", [
+                            "Multispecies.ms_fillSpecies",
+                            "Multispecies.ms_fillA",
+                            "Multispecies.ms_fillZ",
+                            "Multispecies.eos_fillEosType",
+                            "Multispecies.ms_fillZMin"
+                        ]],
+                        ["Wall", [
+                            "Multispecies.ms_wallSpecies",
+                            "Multispecies.ms_wallA",
+                            "Multispecies.ms_wallZ",
+                            "Multispecies.eos_wallEosType",
+                            "Multispecies.ms_wallZMin"
+                        ]]
+                    ],
+                    [
+                        ["Fil1", [
+                            "Multispecies.ms_fil1A",
+                            "Multispecies.ms_fil1Z",
+                            "Multispecies.eos_fil1EosType",
+                            "Multispecies.ms_fil1ZMin"
+                        ]],
+                        ["Fil2", [
+                            "Multispecies.ms_fil2A",
+                            "Multispecies.ms_fil2Z",
+                            "Multispecies.eos_fil2EosType",
+                            "Multispecies.ms_fil2ZMin"
+                        ]]
+                    ]
+                ]]
+            ],
+            "advanced": [
+                "sim_eosFill"
+            ]
+        },
         "SimulationCapLaserBELLA": {
             "title": "CapLaserBELLA Settings",
             "basic": [
@@ -1521,6 +1593,20 @@
                             "Multispecies.ms_wallZ",
                             "Multispecies.eos_wallEosType",
                             "Multispecies.ms_wallZMin"
+                        ]]
+                    ],
+                    [
+                        ["Fil1", [
+                            "Multispecies.ms_fil1A",
+                            "Multispecies.ms_fil1Z",
+                            "Multispecies.eos_fil1EosType",
+                            "Multispecies.ms_fil1ZMin"
+                        ]],
+                        ["Fil2", [
+                            "Multispecies.ms_fil2A",
+                            "Multispecies.ms_fil2Z",
+                            "Multispecies.eos_fil2EosType",
+                            "Multispecies.ms_fil2ZMin"
                         ]]
                     ]
                 ]]
