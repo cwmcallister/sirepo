@@ -1541,14 +1541,14 @@
                             "Multispecies.ms_fillA",
                             "Multispecies.ms_fillZ",
                             "Multispecies.ms_fillZMin",
-                            "Multispecies.eos_fillEosType",
+                            "Multispecies.eos_fillEosType"
                         ]],
                         ["Wall", [
                             "Multispecies.ms_wallSpecies",
                             "Multispecies.ms_wallA",
                             "Multispecies.ms_wallZ",
                             "Multispecies.ms_wallZMin",
-                            "Multispecies.eos_wallEosType",
+                            "Multispecies.eos_wallEosType"
                         ]]
                     ],
                     [
