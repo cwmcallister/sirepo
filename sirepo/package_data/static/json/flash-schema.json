@@ -152,16 +152,16 @@
             ["hybrid", "hybrid"],
             ["limited", "limited"]
         ],
-        "SimulationCapLaserBELLAsim_currType": [
+        "SimulationCapLasersim_currType": [
             ["0", "Linear ramp"],
             ["1", "Exponential ramp"],
             ["2", "From external file"]
         ],
-        "SimulationCapLaserBELLAsim_eosFill": [
+        "SimulationCapLasersim_eosFill": [
             ["eos_tab", "eos_tab"],
             ["eos_gam", "eos_gam"]
         ],
-        "SimulationCapLaserBELLAsim_eosWall": [
+        "SimulationCapLasersim_eosWall": [
             ["eos_tab", "eos_tab"],
             ["eos_gam", "eos_gam"]
         ],
@@ -882,11 +882,29 @@
             "op_fillLowTemp": ["op_fillLowTemp", "Float", 0.0],
             "op_wallLowTemp": ["op_wallLowTemp", "Float", 0.0]
         },
+        "SimulationCapLaser3D": {
+            "sim_condWall": ["sim_condWall", "Float", 195000.0, "Wall conductivity at the gas/wall interface"],
+            "sim_eosFill": ["Fill EOS Type", "SimulationCapLasersim_eosFill", "eos_gam"],
+            "sim_eosWall": ["Wall EOS Type", "SimulationCapLasersim_eosWall", "eos_tab"],
+            "sim_currType": ["Current Calculation Type", "SimulationCapLasersim_currType", "1", "how to calculate the current"],
+            "sim_currFile": ["Current File", "InputFile", "", "file describing current over time"],
+            "sim_riseTime": ["Rise Time", "Float", 1.8e-9, "rise time to peak current in seconds"],
+            "sim_peakCurr": ["Peak Current", "Float", 3.1e2, "peak current at wall in amperes"],
+            "sim_rhoFill": ["Fill Initial Density", "Float", 2.655e-07],
+            "sim_rhoWall": ["Wall Initial Density", "Float", 2.7],
+            "sim_teleFill": ["Fill Electron Temp.", "Float", 290.11375],
+            "sim_teleWall": ["Wall Electron Temp.", "Float", 290.11375],
+            "sim_tionFill": ["Fill Ion Temp.", "Float", 290.11375],
+            "sim_tionWall": ["Wall Ion Temp.", "Float", 290.11375],
+            "sim_tradFill": ["Fill Radiation Temp.", "Float", 290.11375],
+            "sim_tradWall": ["Wall Radiation Temp.", "Float", 290.11375],
+            "sim_zminWall": ["Wall Minimum Zbar", "Float", 0.0]
+        },
         "SimulationCapLaserBELLA": {
             "sim_condWall": ["sim_condWall", "Float", 195000.0, "Wall conductivity at the gas/wall interface"],
-            "sim_eosFill": ["Fill EOS Type", "SimulationCapLaserBELLAsim_eosFill", "eos_gam"],
-            "sim_eosWall": ["Wall EOS Type", "SimulationCapLaserBELLAsim_eosWall", "eos_tab"],
-            "sim_currType": ["Current Calculation Type", "SimulationCapLaserBELLAsim_currType", "1", "how to calculate the current"],
+            "sim_eosFill": ["Fill EOS Type", "SimulationCapLasersim_eosFill", "eos_gam"],
+            "sim_eosWall": ["Wall EOS Type", "SimulationCapLasersim_eosWall", "eos_tab"],
+            "sim_currType": ["Current Calculation Type", "SimulationCapLasersim_currType", "1", "how to calculate the current"],
             "sim_currFile": ["Current File", "InputFile", "", "file describing current over time"],
             "sim_riseTime": ["Rise Time", "Float", 1.8e-9, "rise time to peak current in seconds"],
             "sim_peakCurr": ["Peak Current", "Float", 3.1e2, "peak current at wall in amperes"],
@@ -1593,20 +1611,6 @@
                             "Multispecies.ms_wallZ",
                             "Multispecies.eos_wallEosType",
                             "Multispecies.ms_wallZMin"
-                        ]]
-                    ],
-                    [
-                        ["Fil1", [
-                            "Multispecies.ms_fil1A",
-                            "Multispecies.ms_fil1Z",
-                            "Multispecies.eos_fil1EosType",
-                            "Multispecies.ms_fil1ZMin"
-                        ]],
-                        ["Fil2", [
-                            "Multispecies.ms_fil2A",
-                            "Multispecies.ms_fil2Z",
-                            "Multispecies.eos_fil2EosType",
-                            "Multispecies.ms_fil2ZMin"
                         ]]
                     ]
                 ]]
