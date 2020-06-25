@@ -883,8 +883,10 @@
             "sim_riseTime": ["Rise Time", "Float", 1.8e-9, "rise time to peak current in seconds"],
             "sim_peakCurr": ["Peak Current", "Float", 3.1e2, "peak current at wall in amperes"],
             "sim_peakField": ["Peak Field", "Float", 2.4e3, "peak field in gauss at capillary wall"],
+            "sim_period": ["Circuit Period", "Float", 300.e-9 , "circuit period in seconds"],
             "sim_rhoFill": ["Fill Initial Density", "Float", 2.655e-07],
             "sim_rhoWall": ["Wall Initial Density", "Float", 2.7],
+            "sim_rWall": ["Wall Gas Radius", "Float", 250.0e-4, "wall radius for position of gas/wall interface"],
             "sim_teleFill": ["Fill Electron Temp.", "Float", 290.11375],
             "sim_teleWall": ["Wall Electron Temp.", "Float", 290.11375],
             "sim_tionFill": ["Fill Ion Temp.", "Float", 290.11375],
@@ -913,6 +915,9 @@
         },
         "physicsmaterialPropertiesConductivity": {
             "useConductivity": ["Use Conductivity", "Boolean", "1", "whether the conductivity material property is being used"]
+        },
+        "physicsmaterialPropertiesMagneticResistivity": {
+            "useMagneticResistivity": ["Use Magnetic Resistivity", "Boolean", "0", "whether the magnetic resistivity material property is being used"]
         },
         "physicsmaterialPropertiesOpacity": {
             "useOpacity": ["Use Opacity", "Boolean", "1", "flags whether the Opacity unit is being used at all"]
@@ -1505,9 +1510,12 @@
                     "sim_currType",
                     "sim_currFile",
                     "sim_peakCurr",
+                    "sim_peakField",
+                    "sim_period",
                     "sim_riseTime",
-                    "sim_zminWall",
                     "physicssourceTermsHeatexchange.useHeatExchange",
+                    "sim_zminWall",
+                    "sim_rWall",
                     [
                         ["Fill", [
                             "sim_eosFill",
@@ -1628,6 +1636,7 @@
             "basic": [
                 "physicsmaterialPropertiesOpacity.useOpacity",
                 "physicsmaterialPropertiesConductivity.useConductivity",
+                "physicsmaterialPropertiesConductivity.useMagneticResistivity",
                 [
                     ["Fill", [
                         "physicsmaterialPropertiesOpacityMultispecies.op_fillAbsorb",

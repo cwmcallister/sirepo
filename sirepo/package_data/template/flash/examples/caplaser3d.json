@@ -367,6 +367,7 @@
             "sim_eosWall": "eos_tab",
             "sim_rhoFill": 1e-06,
             "sim_rhoWall": 2.7,
+            "sim_rWall": 250.e-04,
             "sim_teleFill": 11598,
             "sim_teleWall": 11598,
             "sim_tionFill": 11598,
@@ -377,6 +378,7 @@
             "sim_currType": "1",
             "sim_peakCurr": 3.1e2,
             "sim_peakField": 4.5e3,
+            "sim_period": 200e-9,
             "sim_riseTime": 1.8e-9
         },
         "gridEvolutionAnimation": {
@@ -635,6 +637,9 @@
         },
         "physicsmaterialPropertiesConductivity": {
             "useConductivity": "1"
+        },
+        "physicsmaterialPropertiesMagneticResistivity": {
+            "useMagneticResistivity": "1"
         },
         "physicsmaterialPropertiesOpacity": {
             "useOpacity": "1"
