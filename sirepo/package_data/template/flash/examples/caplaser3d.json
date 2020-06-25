@@ -375,7 +375,8 @@
             "sim_tradWall": 11598,
             "sim_zminWall": 0,
             "sim_currType": "1",
-            "sim_peakCurr": 3.1e2 ,
+            "sim_peakCurr": 3.1e2,
+            "sim_peakField": 4.5e3,
             "sim_riseTime": 1.8e-9
         },
         "gridEvolutionAnimation": {
