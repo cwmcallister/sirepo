@@ -296,10 +296,6 @@
             "wr_integrals_freq": 1
         },
         "Multispecies": {
-            "eos_fil1EosType": "eos_tab",
-            "eos_fil1SubType": "ionmix4",
-            "eos_fil2EosType": "eos_tab",
-            "eos_fil2SubType": "ionmix4",
             "eos_fillEosType": "eos_tab",
             "eos_fillGroupName": "-none-",
             "eos_fillSubType": "ionmix4",
@@ -308,12 +304,6 @@
             "eos_wallGroupName": "-none-",
             "eos_wallSubType": "ionmix4",
             "eos_wallTableFile": "alumina-wall-imx.cn4",
-            "ms_fil1A": 1.00784,
-            "ms_fil1Z": 1.0,
-            "ms_fil1ZMin": 18.0,
-            "ms_fil2A": 4.002602,
-            "ms_fil2Z": 2.0,
-            "ms_fil2ZMin": 0.001,
             "ms_fillA": 1.00794,
             "ms_fillAElems_1": -999,
             "ms_fillAElems_2": -999,

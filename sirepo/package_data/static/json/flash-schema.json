@@ -809,11 +809,7 @@
             "wr_integrals_freq": ["wr_integrals_freq", "Integer", 1, "Number of timesteps between writing to flash.dat"]
         },
         "Multispecies": {
-            "eos_fil1EosType": ["Fil1 EOS Type", "Multispecieseos_fillEosType", "-none-"],
-            "eos_fil1SubType": ["Fil1 EOS Subtype", "String", ""],
-            "eos_fil2EosType": ["Fil2 EOS Type", "Multispecieseos_fillEosType", "-none-"],
             "eos_fillEosType": ["Fill EOS Type", "Multispecieseos_fillEosType", "-none-"],
-            "eos_fil2SubType": ["Fil2 EOS Subtype", "String", ""],
             "eos_fillGroupName": ["eos_fillGroupName", "String", "-none-"],
             "eos_fillSubType": ["Fill EOS Subtype", "String", ""],
             "eos_fillTableFile": ["Fill Table File", "String", ""],
@@ -821,12 +817,6 @@
             "eos_wallGroupName": ["eos_wallGroupName", "String", "-none-"],
             "eos_wallSubType": ["Wall EOS Subtype", "String", ""],
             "eos_wallTableFile": ["Wall Table File", "String", ""],
-            "ms_fil1A": ["Fil1 Protons and Neutrons in Nucleus", "Float", -999.0],
-            "ms_fil1Z": ["Fil1 Atomic Number", "Float", -999.0],
-            "ms_fil1ZMin": ["Fil1 ZMin", "Float", -998.0],
-            "ms_fil2A": ["Fil2 Protons and Neutrons in Nucleus", "Float", -999.0],
-            "ms_fil2Z": ["Fil2 Atomic Number", "Float", -999.0],
-            "ms_fil2ZMin": ["Fil2 ZMin", "Float", -998.0],
             "ms_fillA": ["Fill Protons and Neutrons in Nucleus", "Float", -999.0],
             "ms_fillAElems_1": ["ms_fillAElems_1", "Float", -999.0],
             "ms_fillAElems_2": ["ms_fillAElems_2", "Float", -999.0],
@@ -1549,20 +1539,6 @@
                             "Multispecies.ms_wallZ",
                             "Multispecies.ms_wallZMin",
                             "Multispecies.eos_wallEosType"
-                        ]]
-                    ],
-                    [
-                        ["Fil1", [
-                            "Multispecies.ms_fil1A",
-                            "Multispecies.ms_fil1Z",
-                            "Multispecies.eos_fil1EosType",
-                            "Multispecies.ms_fil1ZMin"
-                        ]],
-                        ["Fil2", [
-                            "Multispecies.ms_fil2A",
-                            "Multispecies.ms_fil2Z",
-                            "Multispecies.eos_fil2EosType",
-                            "Multispecies.ms_fil2ZMin"
                         ]]
                     ]
                 ]]
