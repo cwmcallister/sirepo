@@ -883,7 +883,7 @@
             "sim_riseTime": ["Rise Time", "Float", 1.8e-9, "rise time to peak current in seconds"],
             "sim_peakCurr": ["Peak Current", "Float", 3.1e2, "peak current at wall in amperes"],
             "sim_peakField": ["Peak Field", "Float", 2.4e3, "peak field in gauss at capillary wall"],
-            "sim_period": ["Circuit Period", "Float", 300.e-9 , "circuit period in seconds"],
+            "sim_period": ["Circuit Period", "Float", 300e-9 , "circuit period in seconds"],
             "sim_rhoFill": ["Fill Initial Density", "Float", 2.655e-07],
             "sim_rhoWall": ["Wall Initial Density", "Float", 2.7],
             "sim_rWall": ["Wall Gas Radius", "Float", 250.0e-4, "wall radius for position of gas/wall interface"],

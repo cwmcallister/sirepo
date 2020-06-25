@@ -80,14 +80,15 @@ class SimData(sirepo.sim_data.SimDataBase):
         t = data.models.simulation.flashType
         if t == 'RTFlame':
             return ['helm_table.dat']
-        if t == 'CapLaserBELLA':
+        if 'CapLaser' in t:
             r = [
                 'alumina-wall-imx.cn4',
                 'argon-fill-imx.cn4',
                 'helium-fill-imx.cn4',
                 'hydrogen-fill-imx.cn4',
             ]
-            if data.models['SimulationCapLaserBELLA'].sim_currType == '2':
+            # TODO(e-carlin): 3D will likely need this too
+            if t == 'CapLaserBELLA'  and data.models['SimulationCapLaserBELLA'].sim_currType == '2':
                 r.append(cls.lib_file_name_with_model_field(
                     'SimulationCapLaserBELLA',
                     'sim_currFile',

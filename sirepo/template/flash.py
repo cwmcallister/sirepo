@@ -443,7 +443,7 @@ def _generate_parameters_file(data):
     res = ''
     names = {}
 
-    if data.models.simulation.flashType == 'CapLaserBELLA':
+    if 'CapLaser' in data.models.simulation.flashType:
         for k in ('fill', 'wall'):
             f = f"{data.models.Multispecies[f'ms_{k}Species']}-{k}-imx.cn4"
             data.models.Multispecies[f'eos_{k}TableFile'] = f
