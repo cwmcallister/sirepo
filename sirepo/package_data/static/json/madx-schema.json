@@ -95,6 +95,11 @@
             ["sdds_beam", "SDDS Input File"],
             ["bunched_beam", "Twiss Parameters"]
         ],
+        "CommandVarySlope": [
+            ["1", "increase"],
+            ["-1", "decrease"],
+            ["-none-", "-none"]
+        ],
         "ParticleType": [
             ["positron", "Positron"],
             ["electron", "Electron"],
@@ -273,6 +278,25 @@
         },
         "command_call": {
             "file": ["FILE", "String", ""]
+        },
+        "command_constraint": {
+            "sequence": ["SEQUENCE", "LatticeBeamlineList", "", "sequence for which the constraint applies"],
+            "range": ["RANGE", "STRING", "", "position where the constraint must be satisfied"],
+            "alfx": ["ALFX", "RPNValue", 0.0],
+            "alfy": ["ALFY", "RPNValue", 0.0],
+            "betx": ["BETX", "RPNValue", 0.0],
+            "bety": ["BETY", "RPNValue", 0.0],
+            "deltap": ["DELTAP", "RPNValue", 0.0],
+            "dpx": ["DPX", "RPNValue", 0.0],
+            "dpy": ["DPY", "RPNValue", 0.0],
+            "dx": ["DX", "RPNValue", 0.0],
+            "dy": ["DY", "RPNValue", 0.0],
+            "mux": ["MUX", "RPNValue", 0.0],
+            "muy": ["MUY", "RPNValue", 0.0],
+            "px": ["PX", "Float", 0.0, "Canonical coordinate"],
+            "py": ["PY", "Float", 0.0, "Canonical coordinate"],
+            "x": ["X", "Float", 0.0, "Canonical coordinate"],
+            "y": ["Y", "Float", 0.0, "Canonical coordinate"]
         },
         "command_match": {
             "sequence": ["SEQUENCE", "LatticeBeamlineList", ""],
@@ -496,6 +520,14 @@
         "command_use": {
             "sequence": ["BEAMLINE", "LatticeBeamlineList", "", "Name of the sequence to be loaded and expanded."],
             "period": ["BEAMLINE", "LatticeBeamlineList", "", "Name of the sequence to be loaded and expanded."]
+        },
+        "command_vary": {
+            "name": ["NAME", "String", "", "Name of the parameter or attribute to be varied"],
+            "step": ["STEP", "Float", 0.0, "Approximate initial step size for varying the parameter"],
+            "lower": ["LOWER", "Float", 0.0, "Lower limit for the parameter"],
+            "upper": ["UPPER", "Float", 0.0, "Upper limit for the parameter"],
+            "slope": ["SLOPE", "CommandVarySlope", "-none-", "Upper limit for the parameter"],
+            "opt": ["OPT", "Float", 0.0, "Optimal value for the parameter"]
         },
         "initialTwissParams": {
             "alpha": ["Alpha", "Float", 0.0],
@@ -1214,6 +1246,27 @@
                 ]]
             ]
         },
+        "command_constraint": {
+            "title": "Constraint",
+            "advanced": [
+                "sequence",
+                "alfx",
+                "alfy",
+                "betx",
+                "bety",
+                "deltap",
+                "dpx",
+                "dpy",
+                "dx",
+                "dy",
+                "mux",
+                "muy",
+                "px",
+                "py",
+                "x",
+                "y"
+            ]
+        },
         "command_match": {
             "title": "Match",
             "advanced": [
@@ -1406,6 +1459,17 @@
         "command_value": {
             "advanced": [
                 "expression"
+            ]
+        },
+        "command_vary": {
+            "title": "Vary",
+            "advanced": [
+                "name",
+                "step",
+                "lower",
+                "upper",
+                "slope",
+                "opt"
             ]
         },
         "simulationStatus": {

@@ -2,17 +2,17 @@
     "models": {
         "beamlines": [
             {
-                "id": 117,
+                "id": 100,
                 "items": [
+                    104,
                     101,
-                    118,
-                    103,
-                    119,
+                    105,
                     102,
-                    119,
                     103,
-                    119,
-                    101
+                    102,
+                    105,
+                    102,
+                    104
                 ],
                 "name": "BL"
             }
@@ -43,7 +43,7 @@
         },
         "commands": [
             {
-                "_id": 110,
+                "_id": 106,
                 "_type": "beam",
                 "charge": "q",
                 "gamma": "gamma",
@@ -52,7 +52,7 @@
                 "sigt": 1.0
             },
             {
-                "_id": 113,
+                "_id": 107,
                 "_type": "twiss",
                 "betx": 29.528,
                 "alfx": -3.237,
@@ -62,32 +62,38 @@
                 "alfy": 0.986
             },
             {
-                "_id": 114,
+                "_id": 108,
                 "_type": "match",
-                "sequence": 117
+                "sequence": 100
+            },
+            {
+                "_id": 109,
+                "_type": "constraint",
+                "sequence": 100,
+                "range": "#E"
+            },
+            {
+                "_id": 110,
+                "_type": "vary",
+                "name": "QF1->K1",
+                "step": 1E-6
             }
         ],
         "elements": [
             {
-                "_id": 116,
-                "l": 2.0,
-                "name": "D2.0",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 118,
+                "_id": 101,
                 "l": 2.5,
                 "name": "D2.5",
                 "type": "DRIFT"
             },
             {
-                "_id": 119,
+                "_id": 102,
                 "l": 3.0,
                 "name": "D3.0",
                 "type": "DRIFT"
             },
             {
-                "_id": 102,
+                "_id": 103,
                 "_super": "_APERTURE_ELEMENT",
                 "k1": -5.0,
                 "l": 1.0,
@@ -95,7 +101,7 @@
                 "type": "QUADRUPOLE"
             },
             {
-                "_id": 101,
+                "_id": 104,
                 "_super": "_APERTURE_ELEMENT",
                 "k1": 5.0,
                 "l": 0.5,
@@ -103,7 +109,7 @@
                 "type": "QUADRUPOLE"
             },
             {
-                "_id": 103,
+                "_id": 105,
                 "_super": "_APERTURE_ELEMENT",
                 "angle": "15.0*degree",
                 "l": 1.0,
@@ -146,14 +152,14 @@
             }
         ],
         "simulation": {
-            "activeBeamlineId": 117,
+            "activeBeamlineId": 100,
             "documentationUrl": "",
             "isExample": true,
             "folder": "/Examples",
             "name": "Bend Section Matching",
             "notes": "",
             "numberOfParticles": 1000,
-            "visualizationBeamlineId": 117
+            "visualizationBeamlineId": 100
         },
         "twissAnimation": {
             "includeLattice": "1",
