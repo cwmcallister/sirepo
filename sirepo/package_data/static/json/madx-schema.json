@@ -386,6 +386,11 @@
             "ft": ["FT", "Float", 0.0, "Action-angle coordinates"],
             "phit": ["PHIT", "Float", 0.0, "Action-angle coordinates"]
         },
+        "command_savebeta": {
+            "label": ["LABEL", "OptionalString", ""],
+            "place": ["PLACE", "OptionalString", ""],
+            "sequence": ["SEQUENCE", "LatticeBeamlineList", ""]
+        },
         "command_select": {
             "class": ["CLASS", "OptionalString", ""],
             "clear": ["CLEAR", "Boolean", "0"],
@@ -1209,7 +1214,7 @@
             "basic": []
         },
         "command_beam": {
-            "title": "Beam",
+            "title": "beam",
             "description": "The BEAM statement defines data for the particles in a beam.",
             "basic": [
                 "simulation.enableParticleTracking",
@@ -1252,7 +1257,7 @@
             ]
         },
         "command_constraint": {
-            "title": "Constraint",
+            "title": "constraint",
             "advanced": [
                 "sequence",
                 "alfx",
@@ -1301,11 +1306,11 @@
             ]
         },
         "command_endmatch": {
-            "title": "Endmatch",
+            "title": "endmatch",
             "advanced": []
         },
         "command_option": {
-            "title": "Option",
+            "title": "option",
             "advanced": [
                 "bborbit",
                 "debug",
@@ -1327,6 +1332,7 @@
             ]
         },
         "command_ptc_create_universe": {
+            "title": "ptc_create_universe",
             "advanced": [
                 "sector_nmul_max",
                 "sector_nmul",
@@ -1335,6 +1341,7 @@
             ]
         },
         "command_ptc_create_layout": {
+            "title": "ptc_create_layout",
             "advanced": [
                 "time",
                 "model",
@@ -1350,8 +1357,12 @@
                 "even"
             ]
         },
-        "command_ptc_end": {"advanced": []},
+        "command_ptc_end": {
+            "title": "ptc_create_end",
+            "advanced": []
+        },
         "command_ptc_normal": {
+            "title": "ptc_normal",
             "advanced": [
                 "closed_orbit",
                 "deltap",
@@ -1362,11 +1373,13 @@
             ]
         },
         "command_ptc_observe": {
+            "title": "ptc_observe",
             "advanced": [
                 "place"
             ]
         },
         "command_ptc_start": {
+            "title": "ptc_start",
             "advanced": [
                 "x",
                 "px",
@@ -1382,7 +1395,16 @@
                 "phit"
             ]
         },
+        "command_savebeta": {
+            "title": "savebeta",
+            "advanced": [
+                "label",
+                "place",
+                "sequence"
+            ]
+        },
         "command_select": {
+            "title": "ptc_select",
             "advanced": [
                 "class",
                 "clear",
@@ -1397,6 +1419,7 @@
             ]
         },
         "command_ptc_track": {
+            "title": "ptc_track",
             "advanced": [
                 "deltap",
                 "icase",
@@ -1415,19 +1438,25 @@
                 "space_charge"
             ]
         },
-        "command_ptc_track_end": {"advanced": []},
+        "command_ptc_track_end": {
+            "title": "ptc_track_end",
+            "advanced": []
+        },
         "command_set": {
+            "title": "set",
             "advanced": [
                 "format",
                 "sequence"
             ]
         },
         "command_show": {
+            "title": "show",
             "advanced": [
                 "command"
             ]
         },
         "command_sodd": {
+            "title": "sodd",
             "advanced": [
                 "detune",
                 "distort1",
@@ -1441,6 +1470,7 @@
             ]
         },
         "command_resbeam": {
+            "title": "resbeam",
             "advanced": [
                 "sequence"
             ]
@@ -1459,20 +1489,6 @@
                 "dy"
             ]
         },
-        "ptcAnimation": {
-            "title": "PTC Track",
-            "advanced": [
-                [
-                    ["Horizontal",
-                        ["x"]
-                    ],
-                    ["Vertical",
-                        ["y"]
-                    ]
-                ],
-                "histogramBins"
-            ]
-        },
         "command_value": {
             "advanced": [
                 "expression"
@@ -1487,6 +1503,20 @@
                 "upper",
                 "slope",
                 "opt"
+            ]
+        },
+        "ptcAnimation": {
+            "title": "PTC Track",
+            "advanced": [
+                [
+                    ["Horizontal",
+                        ["x"]
+                    ],
+                    ["Vertical",
+                        ["y"]
+                    ]
+                ],
+                "histogramBins"
             ]
         },
         "simulationStatus": {
