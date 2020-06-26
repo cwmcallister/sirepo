@@ -6,7 +6,7 @@
             "dtmin": 1e-16,
             "nend": 10000000,
             "restart": "0",
-            "tmax": 3e-07,
+            "tmax": 3e-07
         },
         "Grid": {
             "eosModeInit": "dens_temp_gather",
@@ -36,7 +36,7 @@
             "refine_var_1": "dens",
             "refine_var_2": "tele",
             "refine_var_3": "depo",
-            "refine_var_count": 3,
+            "refine_var_count": 3
         },
         "IO": {
             "basenm": "flash_",
@@ -63,7 +63,7 @@
             "plot_var_11": "magy",
             "plot_var_12": "magz",
             "plot_var_13": "velx",
-            "plot_var_14": "kapa",
+            "plot_var_14": "kapa"
         },
         "Multispecies": {
             "eos_fillEosType": "eos_tab",
@@ -79,7 +79,7 @@
             "ms_wallA": 20.3922,
             "ms_wallSpecies": "alumina",
             "ms_wallZ": 10.0,
-            "ms_wallZMin": 0.001,
+            "ms_wallZMin": 0.001
         },
         "SimulationCapLaser3D": {
             "sim_condWall": 1.95e5,
