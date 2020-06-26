@@ -274,6 +274,24 @@
         "command_call": {
             "file": ["FILE", "String", ""]
         },
+        "command_match": {
+            "sequence": ["SEQUENCE", "LatticeBeamlineList", ""],
+            "alfx": ["ALFX", "RPNValue", 0.0],
+            "alfy": ["ALFY", "RPNValue", 0.0],
+            "betx": ["BETX", "RPNValue", 0.0],
+            "bety": ["BETY", "RPNValue", 0.0],
+            "deltap": ["DELTAP", "RPNValue", 0.0],
+            "dpx": ["DPX", "RPNValue", 0.0],
+            "dpy": ["DPY", "RPNValue", 0.0],
+            "dx": ["DX", "RPNValue", 0.0],
+            "dy": ["DY", "RPNValue", 0.0],
+            "mux": ["MUX", "RPNValue", 0.0],
+            "muy": ["MUY", "RPNValue", 0.0],
+            "px": ["PX", "Float", 0.0, "Canonical coordinate"],
+            "py": ["PY", "Float", 0.0, "Canonical coordinate"],
+            "x": ["X", "Float", 0.0, "Canonical coordinate"],
+            "y": ["Y", "Float", 0.0, "Canonical coordinate"]
+        },
         "command_option": {
             "bborbit": ["BBORBIT", "TriStateBool", "", "The closed orbit is modified by beam-beam kicks"],
             "debug": ["DEBUG", "TriStateBool", "", "Issues debugging information"],
@@ -1194,6 +1212,27 @@
                     "npart",
                     "sigt"
                 ]]
+            ]
+        },
+        "command_match": {
+            "title": "Match",
+            "advanced": [
+                "sequence",
+                "alfx",
+                "alfy",
+                "betx",
+                "bety",
+                "deltap",
+                "dpx",
+                "dpy",
+                "dx",
+                "dy",
+                "mux",
+                "muy",
+                "px",
+                "py",
+                "x",
+                "y"
             ]
         },
         "command_option": {
