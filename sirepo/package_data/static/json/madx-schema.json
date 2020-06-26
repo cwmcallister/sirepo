@@ -298,6 +298,10 @@
             "x": ["X", "Float", 0.0, "Canonical coordinate"],
             "y": ["Y", "Float", 0.0, "Canonical coordinate"]
         },
+        "command_lmdif": {
+            "calls": ["CALLS", "Integer", 1000, "Maximum number of calls to the penalty function"],
+            "tolerance": ["TOLERANCE", "Float", 1e-6, "Desired tolerance for the minimum"]
+        },
         "command_match": {
             "sequence": ["SEQUENCE", "LatticeBeamlineList", ""],
             "alfx": ["ALFX", "RPNValue", 0.0],
@@ -316,6 +320,7 @@
             "x": ["X", "Float", 0.0, "Canonical coordinate"],
             "y": ["Y", "Float", 0.0, "Canonical coordinate"]
         },
+        "command_endmatch": {},
         "command_option": {
             "bborbit": ["BBORBIT", "TriStateBool", "", "The closed orbit is modified by beam-beam kicks"],
             "debug": ["DEBUG", "TriStateBool", "", "Issues debugging information"],
@@ -1267,6 +1272,13 @@
                 "y"
             ]
         },
+        "command_lmdif": {
+            "title": "LMDIF",
+            "advanced": [
+                "calls",
+                "tolerance"
+            ]
+        },
         "command_match": {
             "title": "Match",
             "advanced": [
@@ -1288,7 +1300,12 @@
                 "y"
             ]
         },
+        "command_endmatch": {
+            "title": "Endmatch",
+            "advanced": []
+        },
         "command_option": {
+            "title": "Option",
             "advanced": [
                 "bborbit",
                 "debug",

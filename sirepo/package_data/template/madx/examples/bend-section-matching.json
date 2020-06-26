@@ -77,6 +77,32 @@
                 "_type": "vary",
                 "name": "QF1->K1",
                 "step": 1E-6
+            },
+            {
+                "_id": 111,
+                "_type": "vary",
+                "name": "QD1->K1",
+                "step": 1E-6
+            },
+            {
+                "_id": 112,
+                "_type": "lmdif",
+                "calls": 500,
+                "tolerance": 1e-20
+            },
+            {
+                "_id": 113,
+                "_type": "endmatch"
+            },
+            {
+                "_id": 114,
+                "_type": "twiss",
+                "betx": 29.528,
+                "alfx": -3.237,
+                "dx": -20.57,
+                "dpx": -0.281,
+                "bety": 7.347,
+                "alfy": 0.986
             }
         ],
         "elements": [
