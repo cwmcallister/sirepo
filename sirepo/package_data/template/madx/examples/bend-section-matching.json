@@ -186,13 +186,6 @@
             "numberOfParticles": 1000,
             "visualizationBeamlineId": 100
         },
-        "twissAnimation": {
-            "includeLattice": "1",
-            "x": "s",
-            "y1": "betx",
-            "y2": "bety",
-            "y3": "dx"
-        },
         "twissAnimation107": {
             "includeLattice": "1",
             "x": "s",

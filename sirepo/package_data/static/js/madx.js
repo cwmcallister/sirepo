@@ -478,6 +478,9 @@ SIREPO.app.controller('VisualizationController', function(appState, madxService,
                 filename: info.filename,
                 modelAccess: {
                     modelKey: info.modelKey,
+                    getData: function() {
+                        return appState.models[info.modelKey];
+                    },
                 },
                 // TODO(e-carlin): impl
                 // panelTitle: cleanFilename(info.filename),
@@ -618,65 +621,8 @@ SIREPO.app.directive('madXLatticeList', function(appState) {
     };
 });
 
-SIREPO.app.directive('elementAnimationModalEditor', function(appState, panelState, plotRangeService) {
-    return {
-        scope: {
-            reportInfo: '=',
-        },
-        template: [
-            '<div data-modal-editor="" data-view-name="{{ viewName }}" data-model-data="modelAccess"></div>',
-        ].join(''),
-        controller: function($scope) {
-            var isFirstVisit = true;
-            var plotRangeWatchers = [];
 
-            $scope.fieldRange = $scope.reportInfo.info.fieldRange;
-            $scope.modelKey = $scope.reportInfo.modelAccess.modelKey;
-            $scope.viewName = $scope.reportInfo.viewName;
-            $scope.modelAccess = {
-                modelKey: $scope.modelKey,
-                getData: function() {
-                    var data = appState.models[$scope.modelKey];
-                    return data;
-                },
-            };
-
-            function processPlotRange(name, modelKey) {
-                plotRangeService.processPlotRange($scope, name, modelKey);
-            }
-
-            function registerPlotRangeWatcher(name, modelKey) {
-                if (plotRangeWatchers.indexOf(modelKey) >= 0) {
-                    return;
-                }
-                plotRangeWatchers.push(modelKey);
-                appState.watchModelFields($scope, [modelKey + '.plotRangeType'], function() {
-                    processPlotRange(name, modelKey);
-                });
-            }
-
-            $scope.$on('sr-tabSelected', function(evt, modelName, modelKey) {
-                if (isFirstVisit) {
-                    isFirstVisit = false;
-                    return;
-                }
-                if (modelKey == $scope.modelKey) {
-                    if ($scope.reportInfo.reportType == 'parameterWithLattice') {
-                        panelState.showField(
-                            name, 'includeLattice',
-                            appState.models[modelKey].valueList.x.indexOf('s') >= 0);
-                    }
-                    panelState.showField(
-                        modelName, 'framesPerSecond',
-                        $scope.reportInfo.info.pageCount > 1);
-                    registerPlotRangeWatcher(modelName, modelKey);
-                    processPlotRange(modelName, modelKey);
-                }
-            });
-        },
-    };
-});
-
+// TODO(e-carlin): delete?
 SIREPO.app.directive('fileValueButton', function(madxService) {
     return {
         controller: function($scope) {
@@ -697,6 +643,7 @@ SIREPO.app.directive('fileValueButton', function(madxService) {
     };
 });
 
+// TODO(e-carlin): delete?
 SIREPO.app.directive('inputFileXY', function() {
     return {
         restrict: 'A',
