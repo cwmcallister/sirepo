@@ -26,7 +26,6 @@
                 "_type": "beam",
                 "gamma": "gamma",
                 "mass": "e0*nn",
-                "particle": " ",
                 "sigt": 1
             },
             {
