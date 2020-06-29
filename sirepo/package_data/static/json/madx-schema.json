@@ -463,7 +463,7 @@
             "dx": ["DX", "RPNValue", 0.0],
             "dy": ["DY", "RPNValue", 0.0],
             "energy": ["ENERGY", "RPNValue", 0.0],
-            "file": ["FILE", "String", "", "The name of the file TWISS output will be written to"],
+            "file": ["FILE", "OutputFile", "", "The name of the file TWISS output will be written to"],
             "keeporbit": ["KEEPORBIT", "OptionalString", "", "Store the orbit under this name at the start, and at all monitors."],
             "line": ["LINE", "OptionalString", "", "Name of a valid beamline for which the calculation of optical functions should be performed. "],
             "mux": ["MUX", "RPNValue", 0.0],

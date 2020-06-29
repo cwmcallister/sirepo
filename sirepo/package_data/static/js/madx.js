@@ -316,18 +316,8 @@ SIREPO.app.factory('madxService', function(appState, commandService, requestSend
         return true;
     };
 
-    // overrides commandService.commandFileExtension for elegant file extensions
     commandService.commandFileExtension = function(command) {
-        //TODO(pjm): keep in sync with template/elegant.py _command_file_extension()
-        if (command) {
-            if (command._type == 'save_lattice') {
-                return '.lte';
-            }
-            else if (command._type == 'global_settings') {
-                return '.txt';
-            }
-        }
-        return '.sdds';
+        return '.tfs';
     };
 
     return self;
@@ -473,8 +463,21 @@ SIREPO.app.controller('VisualizationController', function(appState, madxService,
         self.simulationAlerts = data.alert || '';
         if (data.frameCount) {
             frameCache.setFrameCount(1);
+            // TODO(e-carlin): impl
+            // loadVisualizationReports(data.outputInfo)
         }
     }
+
+    // function loadVisualizationReports(outputInfo) {
+    //     self.outputFiles = [];
+    //     outputInfo.forEach(function(info) {
+    //         outputFiles.push({
+    //             filename: info.filename,
+    //             reportType: 'parameterWithLattice',
+    //             modelName:
+    //         })
+    //     });
+    // }
 
     self.startSimulation = function() {
         self.simState.saveAndRunSimulation('simulation');

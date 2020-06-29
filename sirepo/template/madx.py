@@ -94,7 +94,21 @@ def background_percent_complete(report, run_dir, is_running):
     return PKDict(
         percentComplete=100,
         frameCount=1,
+        outputInfo=_output_info(run_dir),
     )
+
+# TODO(e-carlin): sort
+def _output_info(run_dir):
+    # TODO(e-carlin): handle ptc_track command
+    # TODO(e-carlin): build filenames by walking commands
+    return [
+        PKDict(
+            filename='before_match.tfs',
+            reportType='parameterWithlattice', # TODO(e-carlin): be more general, GUI should only know this
+            modelName='twissAnimation'
+        ),
+        PKDict(filename='after_match.tfs'),
+    ]
 
 def get_application_data(data, **kwargs):
     assert 'method' in data
@@ -503,6 +517,8 @@ def _format_field_value(state, model, field, el_type):
         v = 'true' if v == '1' else 'false'
     elif el_type == 'LatticeBeamlineList':
         v = state.id_map[int(v)].name
+    elif el_type == 'OutputFile':
+        v = f'"{model._type}{model._id}.tfs"'
     return [field, v]
 
 
