@@ -83,6 +83,42 @@ _METHODS = template_common.RPN_METHODS + []
 
 _SIM_DATA, SIM_TYPE, _SCHEMA = sirepo.sim_data.template_globals()
 
+# TODO(e-carlin): sort
+# TODO(e-carlin): share with elegant and opal
+_FILE_ID_SEP = '-'
+
+# TODO(e-carlin): sort
+# TODO(e-carlin): share with elegant and opal
+def _file_id(model_id, field_index):
+    return '{}{}{}'.format(model_id, _FILE_ID_SEP, field_index)
+
+# TODO(e-carlin): sort
+# TODO(e-carlin): start() is the same in opal, elegant, and here
+# TODO(e-carlin): what is model_index for?
+class MadxOutputFileIterator(lattice.ModelIterator):
+    def __init__(self):
+        self.result = PKDict(
+            keys_in_order=[],
+        )
+        self.model_index = PKDict()
+
+    def field(self, model, field_schema, field):
+        self.field_index += 1
+        # TODO(e-carlin): handle ptc_dump command
+        if field_schema[1] == 'OutputFile':
+            # TODO(e-carlin): share with _format_field_value() ?
+            filename = f'{model._type}{model._id}.tfs'
+            k = _file_id(model._id, self.field_index)
+            self.result[k] = filename
+            self.result.keys_in_order.append(k)
+
+    def start(self, model):
+        self.field_index = 0
+        self.model_name = LatticeUtil.model_name_for_data(model)
+        if self.model_name in self.model_index:
+            self.model_index[self.model_name] += 1
+        else:
+            self.model_index[self.model_name] = 1
 
 
 def background_percent_complete(report, run_dir, is_running):
@@ -100,15 +136,19 @@ def background_percent_complete(report, run_dir, is_running):
 # TODO(e-carlin): sort
 def _output_info(run_dir):
     # TODO(e-carlin): handle ptc_track command
-    # TODO(e-carlin): build filenames by walking commands
-    return [
-        PKDict(
-            filename='before_match.tfs',
-            reportType='parameterWithlattice', # TODO(e-carlin): be more general, GUI should only know this
-            modelName='twissAnimation'
-        ),
-        PKDict(filename='after_match.tfs'),
-    ]
+    #TODO(pjm): cache to file with version, similar to template.elegant
+    data = simulation_db.read_json(run_dir.join(template_common.INPUT_BASE_NAME))
+    files = LatticeUtil(data, _SCHEMA).iterate_models(MadxOutputFileIterator()).result
+    res = []
+    for k in files.keys_in_order:
+        id = k.split(_FILE_ID_SEP)
+        if run_dir.join(files[k]).exists():
+            res.append(PKDict(
+                modelKey='elementAnimation{}'.format(id[0]),
+                filename=files[k],
+                isHistogram=True, # is this true?
+            ))
+    return res
 
 def get_application_data(data, **kwargs):
     assert 'method' in data
@@ -518,6 +558,7 @@ def _format_field_value(state, model, field, el_type):
     elif el_type == 'LatticeBeamlineList':
         v = state.id_map[int(v)].name
     elif el_type == 'OutputFile':
+        # TODO(e-carlin): discuss with pjm on how these shuold be named
         v = f'"{model._type}{model._id}.tfs"'
     return [field, v]
 

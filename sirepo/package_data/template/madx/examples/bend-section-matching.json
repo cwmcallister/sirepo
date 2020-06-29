@@ -193,6 +193,13 @@
             "y2": "bety",
             "y3": "dx"
         },
+        "elementAnimation107": {
+            "includeLattice": "1",
+            "x": "s",
+            "y1": "betx",
+            "y2": "bety",
+            "y3": "dx"
+        },
         "twissEllipseReport1": {
             "dim": "x",
             "notes": ""
