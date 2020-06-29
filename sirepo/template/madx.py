@@ -148,7 +148,7 @@ def _output_info(run_dir):
             res.append(PKDict(
                 modelKey='twissAnimation{}'.format(id[0]),
                 filename=f,
-                isHistogram='twiss' in f, # TODO(e-carlin): need to share this knowledge better with creator of file
+                isHistogram='twiss' not in f, # TODO(e-carlin): need to share this knowledge better with creator of file
             ))
     return res
 
