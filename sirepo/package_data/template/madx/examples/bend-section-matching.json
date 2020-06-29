@@ -48,18 +48,19 @@
                 "charge": "q",
                 "gamma": "gamma",
                 "mass": "e0*nn",
-                "particle": "",
+                "particle": " ",
                 "sigt": 1.0
             },
             {
                 "_id": 107,
                 "_type": "twiss",
-                "betx": 29.528,
                 "alfx": -3.237,
-                "dx": -20.57,
-                "dpx": -0.281,
+                "alfy": 0.986,
+                "betx": 29.528,
                 "bety": 7.347,
-                "alfy": 0.986
+                "dpx": -0.281,
+                "dx": -20.57,
+                "file": "before_match.tfs"
             },
             {
                 "_id": 108,
@@ -97,12 +98,13 @@
             {
                 "_id": 114,
                 "_type": "twiss",
-                "betx": 29.528,
                 "alfx": -3.237,
-                "dx": -20.57,
-                "dpx": -0.281,
+                "alfy": 0.986,
+                "betx": 29.528,
                 "bety": 7.347,
-                "alfy": 0.986
+                "dpx": -0.281,
+                "dx": -20.57,
+                "file": "after_match.tfs"
             }
         ],
         "elements": [

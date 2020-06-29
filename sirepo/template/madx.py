@@ -208,6 +208,7 @@ def write_parameters(data, run_dir, is_parallel):
     )
 
 
+    # TODO(e-carlin): change name this also adds 'use' command
 def _add_call_and_observe_commands(data, util):
     commands = data.models.commands
     # set the selected beamline depending on the lattice or visualization
@@ -216,6 +217,8 @@ def _add_call_and_observe_commands(data, util):
         _type='use',
         sequence=util.select_beamline().id,
     ))
+    # TODO(e-carlin): fix
+    """
     # insert call and ptc_observe commands after ptc_create_layout
     idx = next(i for i, cmd in enumerate(commands) if cmd._type == 'ptc_create_layout')
     commands.insert(idx + 1, PKDict(
@@ -226,6 +229,7 @@ def _add_call_and_observe_commands(data, util):
         _type='ptc_observe',
         place='{}$END'.format(util.select_beamline().name.upper()),
     ))
+    """
 
 
 def _code_var(variables):
@@ -421,13 +425,9 @@ def _generate_commands(util):
         for f in c[1]:
            res += f', {f[0]}={f[1]}'
         t = c[0]._type
-        if t == 'twiss':
-            res += f', file={_MADX_TWISS_OUTPUT_FILE}'
-        elif t == 'ptc_track':
+        if t == 'ptc_track':
             res += (f', dump=true, onetable=true file={_MADX_PTC_TRACK_DUMP_FILE}'
                     f', extension=.{_MADX_PTC_TRACK_DUMP_FILE_EXTENSION}')
-        # elif t == 'call':
-        #     res += f', file={_MADX_PTC_PARTICLES_FILE}'
         res += ';\n'
     return res
 

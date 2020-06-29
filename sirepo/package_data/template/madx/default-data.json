@@ -11,7 +11,8 @@
                 "_id": 109,
                 "_type": "twiss",
                 "betx": 1,
-                "bety": 1
+                "bety": 1,
+                "twiss.tfs"
             },
             {
                 "_id": 110,

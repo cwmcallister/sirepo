@@ -26,6 +26,7 @@
                 "_type": "beam",
                 "gamma": "gamma",
                 "mass": "e0*nn",
+                "particle": " ",
                 "sigt": 1
             },
             {
@@ -38,7 +39,8 @@
                 "dpx": -0.281,
                 "dpy": 0,
                 "dx": -2.57,
-                "dy": 0
+                "dy": 0,
+                "file": "twiss.tfs"
             },
             {
                 "_id": 110,
