@@ -463,21 +463,37 @@ SIREPO.app.controller('VisualizationController', function(appState, madxService,
         self.simulationAlerts = data.alert || '';
         if (data.frameCount) {
             frameCache.setFrameCount(1);
-            // TODO(e-carlin): impl
-            // loadVisualizationReports(data.outputInfo)
+            loadElementReports(data.outputInfo);
         }
     }
 
-    // function loadVisualizationReports(outputInfo) {
-    //     self.outputFiles = [];
-    //     outputInfo.forEach(function(info) {
-    //         outputFiles.push({
-    //             filename: info.filename,
-    //             reportType: 'parameterWithLattice',
-    //             modelName:
-    //         })
-    //     });
-    // }
+    // TODO(e-carlin): lots of shared code with elegant and opal
+    function loadElementReports(outputInfo) {
+        self.outputFiles = [];
+        outputInfo.forEach(function(info) {
+            var outputFile = {
+                info: info,
+                reportType: info.isHistogram ? 'heatmap' : 'parameterWithLattice',
+                viewName: 'elementAnimation',
+                filename: info.filename,
+                modelAccess: {
+                    modelKey: info.modelKey,
+                },
+                // TODO(e-carlin): impl
+                // panelTitle: cleanFilename(info.filename),
+                panelTitle: info.filename,
+            };
+            self.outputFiles.push(outputFile);
+            panelState.setError(info.modelKey, null);
+            if (! appState.models[info.modelKey]) {
+                appState.models[info.modelKey] = {};
+            }
+            var m = appState.models[info.modelKey];
+            appState.setModelDefaults(m, 'elementAnimation');
+            appState.saveQuietly(info.modelKey);
+            frameCache.setFrameCount(1, info.modelKey);
+        });
+    }
 
     self.startSimulation = function() {
         self.simState.saveAndRunSimulation('simulation');

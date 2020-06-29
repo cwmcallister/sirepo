@@ -156,6 +156,12 @@
             "y2",
             "y3"
         ],
+        "animation": [
+            "x",
+            "y1",
+            "y2",
+            "y3"
+        ],
         "ptcAnimation": [
             "x",
             "y",

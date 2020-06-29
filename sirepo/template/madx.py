@@ -137,16 +137,18 @@ def background_percent_complete(report, run_dir, is_running):
 def _output_info(run_dir):
     # TODO(e-carlin): handle ptc_track command
     #TODO(pjm): cache to file with version, similar to template.elegant
+    # TODO(e-carlin): single letter var names
     data = simulation_db.read_json(run_dir.join(template_common.INPUT_BASE_NAME))
     files = LatticeUtil(data, _SCHEMA).iterate_models(MadxOutputFileIterator()).result
     res = []
     for k in files.keys_in_order:
         id = k.split(_FILE_ID_SEP)
         if run_dir.join(files[k]).exists():
+            f = files[k]
             res.append(PKDict(
                 modelKey='elementAnimation{}'.format(id[0]),
-                filename=files[k],
-                isHistogram=True, # is this true?
+                filename=f,
+                isHistogram='twiss' in f, # TODO(e-carlin): need to share this knowledge better with creator of file
             ))
     return res
 
