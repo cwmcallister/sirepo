@@ -146,7 +146,7 @@ def _output_info(run_dir):
         if run_dir.join(files[k]).exists():
             f = files[k]
             res.append(PKDict(
-                modelKey='elementAnimation{}'.format(id[0]),
+                modelKey='twissAnimation{}'.format(id[0]),
                 filename=f,
                 isHistogram='twiss' in f, # TODO(e-carlin): need to share this knowledge better with creator of file
             ))
@@ -295,6 +295,14 @@ def _code_var(variables):
         case_insensitive=True,
     )
 
+# TODO(e-carlin): sort
+# TODO(e-carlin): share with _format_field_value el_type == OutputFile
+def _file_name_for_animation(run_dir, report):
+    for info in _output_info(run_dir):
+        if info.modelKey == report:
+            return info.filename
+    raise AssertionError(f'no output file for report={report}')
+
 
 def _extract_report_data(data, run_dir):
     r = data.get('report', data.get('frameReport'))
@@ -303,7 +311,10 @@ def _extract_report_data(data, run_dir):
     elif 'bunchReport' in data.report:
         return _extract_report_bunchReport(data, run_dir)
     elif r.startswith('twiss'):
-        return _extract_report_twissReport(data, run_dir)
+        f = _MADX_TWISS_OUTPUT_FILE
+        if 'Animation' in  r:
+            f = _file_name_for_animation(run_dir, r)
+        return _extract_report_twissReport(data, run_dir, f)
     return getattr(
         pykern.pkinspect.this_module(),
         '_extract_report_' + r,
@@ -453,8 +464,8 @@ def _extract_report_ptcAnimation(data, run_dir):
     )
 
 
-def _extract_report_twissReport(data, run_dir):
-    t = madx_parser.parse_tfs_file(run_dir.join(_MADX_TWISS_OUTPUT_FILE))
+def _extract_report_twissReport(data, run_dir, filename):
+    t = madx_parser.parse_tfs_file(run_dir.join(filename))
     plots = []
     m = data.models[data.report]
     for f in ('y1', 'y2', 'y3'):

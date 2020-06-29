@@ -193,7 +193,14 @@
             "y2": "bety",
             "y3": "dx"
         },
-        "elementAnimation107": {
+        "twissAnimation107": {
+            "includeLattice": "1",
+            "x": "s",
+            "y1": "betx",
+            "y2": "bety",
+            "y3": "dx"
+        },
+        "twissAnimation114": {
             "includeLattice": "1",
             "x": "s",
             "y1": "betx",

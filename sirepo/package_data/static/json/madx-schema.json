@@ -573,13 +573,6 @@
             "y3": ["Vertical Value to Plot", "TwissParameter", "dx"],
             "includeLattice": ["Show Lattice Overlay", "Boolean", "1"]
         },
-        "elementAnimation": {
-            "x": ["Horizontal Value to Plot", "TwissParameter", "s"],
-            "y1": ["Vertical Value to Plot", "TwissParameter", "betx"],
-            "y2": ["Vertical Value to Plot", "TwissParameter", "bety"],
-            "y3": ["Vertical Value to Plot", "TwissParameter", "dx"],
-            "includeLattice": ["Show Lattice Overlay", "Boolean", "1"]
-        },
         "twissReport": {
             "y1": ["Y1 Value", "TwissParameter", "betx"],
             "y2": ["Y2 Value", "TwissParameter", "bety"],
@@ -1548,24 +1541,6 @@
         },
         "twissAnimation": {
             "title": "Twiss Parameters",
-            "advanced": [
-                ["Main", [
-                    [
-                        ["Horizontal", [
-                            "x"
-                        ]],
-                        ["Vertical", [
-                            "y1",
-                            "y2",
-                            "y3"
-                        ]]
-                    ],
-                    "includeLattice"
-                ]]
-            ]
-        },
-        "elementAnimation": {
-            "title": "Evan's element",
             "advanced": [
                 ["Main", [
                     [

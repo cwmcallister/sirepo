@@ -474,7 +474,7 @@ SIREPO.app.controller('VisualizationController', function(appState, madxService,
             var outputFile = {
                 info: info,
                 reportType: info.isHistogram ? 'heatmap' : 'parameterWithLattice',
-                viewName: 'elementAnimation',
+                viewName: 'twissAnimation',
                 filename: info.filename,
                 modelAccess: {
                     modelKey: info.modelKey,
@@ -489,7 +489,7 @@ SIREPO.app.controller('VisualizationController', function(appState, madxService,
                 appState.models[info.modelKey] = {};
             }
             var m = appState.models[info.modelKey];
-            appState.setModelDefaults(m, 'elementAnimation');
+            appState.setModelDefaults(m, 'twissAnimation');
             appState.saveQuietly(info.modelKey);
             frameCache.setFrameCount(1, info.modelKey);
         });
@@ -757,143 +757,7 @@ SIREPO.app.directive('numberList', function() {
     };
 });
 
-SIREPO.app.directive('parameterTable', function(appState, panelState, $sce) {
-    return {
-        restrict: 'A',
-        scope: {
-        },
-        template: [
-            '<div data-ng-if="outputInfo">',
-              '<div data-basic-editor-panel="" data-want-buttons="" data-view-name="parameterTable">',
-                '<form name="form" class="form-horizontal" autocomplete="off">',
-                  '<div data-ng-repeat="item in parameterRows">',
-                    '<div class="sr-parameter-table-row form-group">',
-                      '<div class="control-label col-sm-5" data-label-with-tooltip="" data-label="{{ item.name }}" data-tooltip="{{ item.description }}"></div>',
-                      '<div class="col-sm-5 form-control-static">{{ item.value }}<span ng-bind-html="item.units"></span></span></div>',
-                    '</div>',
-                  '</div>',
-                '</form>',
-              '</div>',
-            '</div>',
-        ].join(''),
-        controller: function($scope) {
-
-            function fileChanged() {
-                if (! $scope.outputInfo) {
-                    return;
-                }
-                // If not found, just set to first file
-                $scope.fileInfo = $scope.outputInfo[0];
-                $scope.outputInfo.forEach(function (v) {
-                    if (v.filename == appState.models.parameterTable.file) {
-                        $scope.fileInfo = v;
-                    }
-                });
-                appState.models.parameterTable.file = $scope.fileInfo.filename;
-                var pages = [];
-                for (var i = 0; i < $scope.fileInfo.pageCount; i++) {
-                    pages.push(i);
-                }
-                appState.models.parameterTable.valueList.page = pages;
-                pageChanged();
-            }
-
-            function modelsLoaded() {
-                if (!appState.models.parameterTable) {
-                    appState.models.parameterTable = {
-                        file: null,
-                        page: null,
-                        valueList: {
-                            file: null,
-                            page: null,
-                        },
-                    };
-                }
-            }
-
-            function outputInfoChanged(e, outputInfo) {
-                $scope.outputInfo = outputInfo;
-                if (! outputInfo) {
-                    return;
-                }
-                var files = [];
-                var modelKeys = [];
-                $scope.outputInfo.forEach(function (v) {
-                    files.push(v.filename);
-                    modelKeys.push(v.modelKey);
-                });
-                appState.models.parameterTable.valueList.file = files;
-                appState.models.parameterTable.valueList.modelKey = modelKeys;
-                fileChanged();
-            }
-
-            function pageChanged() {
-                if (! $scope.fileInfo) {
-                    return;
-                }
-                var page = appState.models.parameterTable.page;
-                // If no page or more than count, reset to 0
-                if (!page || page >= $scope.fileInfo.pageCount) {
-                    appState.models.parameterTable.page = page = 0;
-                }
-                var params = $scope.fileInfo.parameters;
-                if (! params) {
-                    return;
-                }
-                var defs = $scope.fileInfo.parameterDefinitions;
-                var rows = [];
-                Object.keys(params).sort(
-                    function(a, b) {
-                        return a.localeCompare(b);
-                    }
-                ).forEach(function (k) {
-                    rows.push({
-                        name: k,
-                        value: params[k][page],
-                        units: unitsAsHtml(defs[k].units),
-                        description: defs[k].description,
-                    });
-                });
-                $scope.parameterRows = rows;
-                appState.saveChanges('parameterTable');
-            }
-
-            function unitsAsHtml(units) {
-                //TODO(robnagler) Needs to be generalized. Don't know all the cases though
-                //TODO(pjm): could generalize, see "special characters" section
-                // http://www.aps.anl.gov/Accelerator_Systems_Division/Accelerator_Operations_Physics/manuals/SDDStoolkit/SDDStoolkitsu66.html
-                if (units == 'm$be$nc') {
-                    return $sce.trustAsHtml(' m<sub>e</sub>c');
-                }
-                if (units == 'm$a2$n') {
-                    return $sce.trustAsHtml(' m<sup>2</sup>');
-                }
-                if (units == '1/m$a2$n') {
-                    return $sce.trustAsHtml(' 1/(m<sup>2</sup>)');
-                }
-                if (units == '1/(2$gp$r)') {
-                    return $sce.trustAsHtml(' 1/(2𝜋)');
-                }
-                if (/^[\w\/]+$/.exec(units)) {
-                    return $sce.trustAsHtml(' ' + units);
-                }
-                if (units) {
-                    srlog(units, ': unable to convert ' + SIREPO.APP_SCHEMA.appInfo[SIREPO.APP_NAME].longName + ' units to HTML');
-                }
-                return $sce.trustAsHtml('');
-            }
-
-            $scope.outputInfo = null;
-            appState.whenModelsLoaded($scope, function() {
-                $scope.$on('elementAnimation.outputInfo', outputInfoChanged);
-                appState.watchModelFields($scope, ['parameterTable.page'], pageChanged);
-                appState.watchModelFields($scope, ['parameterTable.file'], fileChanged);
-                modelsLoaded();
-            });
-        }
-    };
-});
-
+// TODO(e-carlin): ?? looks like elegant not madx
 SIREPO.app.directive('srBunchEditor', function(appState, panelState) {
     return {
         restrict: 'A',
