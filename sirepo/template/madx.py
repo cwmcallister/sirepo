@@ -81,6 +81,8 @@ _MADX_TWISS_OUTPUT_FILE = f'twiss.{_TFS_FILE_EXTENSION}'
 
 _METHODS = template_common.RPN_METHODS + []
 
+_PTC_TRACK_COMMAND = 'ptc_track'
+
 _SIM_DATA, SIM_TYPE, _SCHEMA = sirepo.sim_data.template_globals()
 
 # TODO(e-carlin): sort
@@ -104,12 +106,11 @@ class MadxOutputFileIterator(lattice.ModelIterator):
 
     def field(self, model, field_schema, field):
         self.field_index += 1
-        # TODO(e-carlin): handle ptc_dump command
         if field_schema[1] == 'OutputFile':
-            # TODO(e-carlin): share with _format_field_value() ?
-            filename = f'{model._type}{model._id}.{_TFS_FILE_EXTENSION}'
+            # TODO(e-carlin): remove
+            pkdp('mmmmmmmmm {}', model._id)
             k = _file_id(model._id, self.field_index)
-            self.result[k] = filename
+            self.result[k] = _get_output_filename(model._type, model._id)
             self.result.keys_in_order.append(k)
 
     def start(self, model):
@@ -140,6 +141,7 @@ def _output_info(run_dir):
     # TODO(e-carlin): single letter var names
     data = simulation_db.read_json(run_dir.join(template_common.INPUT_BASE_NAME))
     files = LatticeUtil(data, _SCHEMA).iterate_models(MadxOutputFileIterator()).result
+    # TODO(e-carlin): remove
     pkdp('ffffffffffffff {}', files)
     res = []
     for k in files.keys_in_order:
@@ -371,6 +373,15 @@ def _fixup_madx(madx):
     madx.models.commands = res
 
 
+# TODO(e-carlin): discuss with pjm on what these files should be named
+def _get_output_filename(command, id=None):
+    if command == _PTC_TRACK_COMMAND:
+        # POSIT: We are using the onetable option so madx appends
+        # one to the filename
+        return f'{_MADX_PTC_TRACK_DUMP_FILE}one.{_TFS_FILE_EXTENSION}'
+    return f'{command}{id}.{_TFS_FILE_EXTENSION}'
+
+
 def _twiss_ellipse_rotation(alpha, beta):
     if alpha == 0:
         return 0
@@ -450,8 +461,7 @@ def _extract_report_ptcAnimation(data, run_dir):
     m = data.models[data.report]
     t = madx_parser.parse_tfs_file(
         run_dir.join(
-            # POSIT: We are using the onetable option so madx appends one to the filename
-            f'{_MADX_PTC_TRACK_DUMP_FILE}one.{_TFS_FILE_EXTENSION}',
+            _get_output_filename(_PTC_TRACK_COMMAND),
         ),
     )
     return template_common.heatmap(
@@ -493,7 +503,7 @@ def _generate_commands(util):
         for f in c[1]:
            res += f', {f[0]}={f[1]}'
         t = c[0]._type
-        if t == 'ptc_track':
+        if t == _PTC_TRACK_COMMAND:
             res += (f', dump=true, onetable=true file={_MADX_PTC_TRACK_DUMP_FILE}'
                     f', extension=.{_TFS_FILE_EXTENSION}')
         res += ';\n'
@@ -572,8 +582,7 @@ def _format_field_value(state, model, field, el_type):
     elif el_type == 'LatticeBeamlineList':
         v = state.id_map[int(v)].name
     elif el_type == 'OutputFile':
-        # TODO(e-carlin): discuss with pjm on how these shuold be named
-        v = f'"{model._type}{model._id}.{_TFS_FILE_EXTENSION}"'
+        v = '"{}"'.format(_get_output_filename(model._type, model._id))
     return [field, v]
 
 

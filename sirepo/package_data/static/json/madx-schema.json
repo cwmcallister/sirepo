@@ -414,6 +414,7 @@
             "closed_orbit": ["CLOSED_ORBIT", "Boolean", "0", "Turn on the closed orbit calculation"],
             "deltap": ["DELTAP", "Float", 0.0, "Relative momentum offset for reference closed orbit (used for 5D case ONLY)"],
             "element_by_element": ["ELEMENT_BY_ELEMENT", "Boolean", "0", "Switch from the default turn-by-turn tracking to the element-by-element tracking"],
+            "file": ["FILE", "OutputFile", "", "The name of the file output will be written to"],
             "ffile": ["FFILE", "Integer", 1, "Printing coordinates after every FFILE turns"],
             "icase": ["ICASE", "Integer", 4, "User-defined dimensionality of the phase-space (4, 5 or 6)"],
             "maxaper": ["MAXAPER", "Float6StringArray", "0, 0, 0, 0, 0, 0", "Upper limits for the particle coordinates"],
