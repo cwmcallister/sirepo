@@ -108,8 +108,6 @@ class MadxOutputFileIterator(lattice.ModelIterator):
     def field(self, model, field_schema, field):
         self.field_index += 1
         if field_schema[1] == 'OutputFile':
-            # TODO(e-carlin): remove
-            pkdp('mmmmmmmmm {}', model._id)
             k = _file_id(model._id, self.field_index)
             self.result[k] = PKDict(
                 filename=_get_output_filename(model._type, model._id),
@@ -317,10 +315,10 @@ def _file_name_for_animation(run_dir, report):
 
 def _extract_report_data(data, run_dir):
     r = data.get('report', data.get('frameReport'))
-    m, _, _ = re.split(r'(\d+)', r)
+    m = re.split(r'(\d+)', r)
     f = getattr(
         pykern.pkinspect.this_module(),
-        '_extract_report_' + m
+        '_extract_report_' + m[0] if m else r
     )
     f = functools.partial(f, data, run_dir)
     if 'Animation' in r:
