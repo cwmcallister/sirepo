@@ -36,6 +36,8 @@ MADX_OUTPUT_FILE = 'madx.out'
 
 _INITIAL_REPORTS = ['twissEllipseReport', 'bunchReport']
 
+_FILE_ID_SEP = '-'
+
 _FIELD_LABEL = PKDict(
     alfx='alfx [1]',
     alfy='alfy [1]',
@@ -56,7 +58,7 @@ _FIELD_LABEL = PKDict(
 
 _PI = 4 * math.atan(1)
 
-_TFS_FILE_EXTENSION = 'tfs'
+_METHODS = template_common.RPN_METHODS + []
 
 _MADX_CONSTANTS = PKDict(
     pi=_PI,
@@ -74,21 +76,18 @@ _MADX_CONSTANTS = PKDict(
     erad=2.8179403267e-15,
 )
 
-_MADX_PTC_PARTICLES_FILE = 'ptc_particles.madx'
-
-_MADX_PTC_TRACK_DUMP_FILE = 'ptc_track_dump'
-
-_MADX_TWISS_OUTPUT_FILE = f'twiss.{_TFS_FILE_EXTENSION}'
-
-_METHODS = template_common.RPN_METHODS + []
+_PTC_PARTICLES_FILE = 'ptc_particles.madx'
 
 _PTC_TRACK_COMMAND = 'ptc_track'
 
+_PTC_TRACK_USE_ONETABLE = True
+
 _SIM_DATA, SIM_TYPE, _SCHEMA = sirepo.sim_data.template_globals()
 
-# TODO(e-carlin): sort
-# TODO(e-carlin): share with elegant and opal
-_FILE_ID_SEP = '-'
+_TFS_FILE_EXTENSION = 'tfs'
+
+_TWISS_OUTPUT_FILE = f'twiss.{_TFS_FILE_EXTENSION}'
+
 
 # TODO(e-carlin): sort
 # TODO(e-carlin): share with elegant and opal
@@ -110,7 +109,7 @@ class MadxOutputFileIterator(lattice.ModelIterator):
         if field_schema[1] == 'OutputFile':
             k = _file_id(model._id, self.field_index)
             self.result[k] = PKDict(
-                filename=_get_output_filename(model._type, model._id),
+                filename=_output_file_name(model._type, model._id),
                 model_type=model._type
             )
             self.result.keys_in_order.append(k)
@@ -264,7 +263,7 @@ def write_parameters(data, run_dir, is_parallel):
         is_parallel (bool): run in background?
     """
     pkio.write_text(
-        run_dir.join(_MADX_PTC_PARTICLES_FILE),
+        run_dir.join(_PTC_PARTICLES_FILE),
         _generate_ptc_particles_file(data),
     )
     pkio.write_text(
@@ -289,7 +288,7 @@ def _add_call_and_observe_commands(data, util):
     idx = next(i for i, cmd in enumerate(commands) if cmd._type == 'ptc_create_layout')
     commands.insert(idx + 1, PKDict(
         _type='call',
-        file=_MADX_PTC_PARTICLES_FILE,
+        file=_PTC_PARTICLES_FILE,
     ))
     commands.insert(idx + 2, PKDict(
         _type='ptc_observe',
@@ -376,14 +375,14 @@ def _fixup_madx(madx):
 
 
 # TODO(e-carlin): discuss with pjm on what these files should be named
-def _get_output_filename(command, id=None, prefix=False):
-    if command == _PTC_TRACK_COMMAND:
-        if prefix:
-            return _MADX_PTC_TRACK_DUMP_FILE
-        # POSIT: We are using the onetable option so madx appends
-        # one to the filename
-        return f'{_MADX_PTC_TRACK_DUMP_FILE}one.{_TFS_FILE_EXTENSION}'
-    return f'{command}{id}.{_TFS_FILE_EXTENSION}'
+def _output_file_name(command, id=None, prefix=False):
+    f = f'{command}{id}'
+    if prefix:
+        return f
+    if command == _PTC_TRACK_COMMAND and _PTC_TRACK_USE_ONETABLE:
+        # madx appens 'one' to filename when using onetable
+        f += 'one'
+    return f + f'.{_TFS_FILE_EXTENSION}'
 
 
 def _twiss_ellipse_rotation(alpha, beta):
@@ -479,7 +478,7 @@ def _extract_report_twissAnimation(*args, **kwargs):
     return _extract_report_twissReport(*args, **kwargs)
 
 
-def _extract_report_twissReport(data, run_dir, filename=_MADX_TWISS_OUTPUT_FILE):
+def _extract_report_twissReport(data, run_dir, filename=_TWISS_OUTPUT_FILE):
     t = madx_parser.parse_tfs_file(run_dir.join(filename))
     plots = []
     m = data.models[data.report]
@@ -508,7 +507,8 @@ def _generate_commands(util):
            res += f', {f[0]}={f[1]}'
         t = c[0]._type
         if t == _PTC_TRACK_COMMAND:
-            res += (f', dump=true, onetable=true file={_get_output_filename(t, c[0]._id, prefix=True)}'
+            res += (f', dump=true, {"onetable=true, " if _PTC_TRACK_USE_ONETABLE else ""}'
+                    f'file={_output_file_name(t, c[0]._id, prefix=True)}'
                     f', extension=.{_TFS_FILE_EXTENSION}')
         res += ';\n'
     return res
@@ -537,19 +537,19 @@ def _generate_parameters_file(data):
     util = LatticeUtil(data, _SCHEMA)
     report = data.get('report', '')
     code_var = _code_var(data.models.rpnVariables)
-    v.twissOutputFilename = _MADX_TWISS_OUTPUT_FILE
+    v.twissOutputFilename = _TWISS_OUTPUT_FILE
     v.lattice = _generate_lattice(util)
     v.variables = _generate_variables(code_var, data)
 
     v.useBeamline = util.select_beamline().name
     if report == 'twissReport':
-        v.twissOutputFilename = _MADX_TWISS_OUTPUT_FILE
+        v.twissOutputFilename = _TWISS_OUTPUT_FILE
         return template_common.render_jinja(SIM_TYPE, v, 'twiss.madx')
     _add_call_and_observe_commands(data, util)
     v.commands = _generate_commands(util)
     v.hasTwiss = bool(util.find_first_command(data, 'twiss'))
     if not v.hasTwiss:
-        v.twissOutputFilename = _MADX_TWISS_OUTPUT_FILE
+        v.twissOutputFilename = _TWISS_OUTPUT_FILE
     return template_common.render_jinja(SIM_TYPE, v, 'parameters.madx')
 
 
@@ -557,7 +557,7 @@ def _generate_ptc_particles_file(data):
     return template_common.render_jinja(
         SIM_TYPE,
         PKDict(start_commands=_ptc_start_commands(data)),
-        _MADX_PTC_PARTICLES_FILE,
+        _PTC_PARTICLES_FILE,
     )
 
 
@@ -586,7 +586,7 @@ def _format_field_value(state, model, field, el_type):
     elif el_type == 'LatticeBeamlineList':
         v = state.id_map[int(v)].name
     elif el_type == 'OutputFile':
-        v = '"{}"'.format(_get_output_filename(model._type, model._id))
+        v = '"{}"'.format(_output_file_name(model._type, model._id))
     return [field, v]
 
 
