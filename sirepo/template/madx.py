@@ -21,6 +21,7 @@ from sirepo.template import template_common
 from sirepo.template.template_common import ParticleEnergy
 from sirepo.template.lattice import LatticeUtil
 import copy
+import functools
 import math
 import numpy as np
 import pykern.pkinspect
@@ -316,18 +317,15 @@ def _file_name_for_animation(run_dir, report):
 
 def _extract_report_data(data, run_dir):
     r = data.get('report', data.get('frameReport'))
-    if 'twissEllipse' in r:
-        return _extract_report_twissEllipseReport(data, run_dir)
-    elif 'bunchReport' in data.report:
-        return _extract_report_bunchReport(data, run_dir)
-    elif r.startswith('twiss'):
-        f = _MADX_TWISS_OUTPUT_FILE
-        if 'Animation' in  r:
-            f = _file_name_for_animation(run_dir, r)
-        return _extract_report_twissReport(data, run_dir, f)
-    elif r.startswith('ptcAnimation'):
-        return _extract_report_ptcAnimation(data, run_dir)
-    raise AssertionError(f'unkown report={r}')
+    m, _, _ = re.split(r'(\d+)', r)
+    f = getattr(
+        pykern.pkinspect.this_module(),
+        '_extract_report_' + m
+    )
+    f = functools.partial(f, data, run_dir)
+    if 'Animation' in r:
+        f = functools.partial(f, filename=_file_name_for_animation(run_dir, r))
+    return f()
 
 
 def _extract_report_bunchReport(data, run_dir):
@@ -380,8 +378,10 @@ def _fixup_madx(madx):
 
 
 # TODO(e-carlin): discuss with pjm on what these files should be named
-def _get_output_filename(command, id=None):
+def _get_output_filename(command, id=None, prefix=False):
     if command == _PTC_TRACK_COMMAND:
+        if prefix:
+            return _MADX_PTC_TRACK_DUMP_FILE
         # POSIT: We are using the onetable option so madx appends
         # one to the filename
         return f'{_MADX_PTC_TRACK_DUMP_FILE}one.{_TFS_FILE_EXTENSION}'
@@ -463,13 +463,9 @@ def _extract_report_twissEllipseReport(data, run_dir):
     )
 
 
-def _extract_report_ptcAnimation(data, run_dir):
+def _extract_report_ptcAnimation(data, run_dir, filename):
     m = data.models[data.report]
-    t = madx_parser.parse_tfs_file(
-        run_dir.join(
-            _get_output_filename(_PTC_TRACK_COMMAND),
-        ),
-    )
+    t = madx_parser.parse_tfs_file(run_dir.join(filename))
     return template_common.heatmap(
         [_to_floats(t[m.x]), _to_floats(t[m.y])],
         m,
@@ -481,7 +477,11 @@ def _extract_report_ptcAnimation(data, run_dir):
     )
 
 
-def _extract_report_twissReport(data, run_dir, filename):
+def _extract_report_twissAnimation(*args, **kwargs):
+    return _extract_report_twissReport(*args, **kwargs)
+
+
+def _extract_report_twissReport(data, run_dir, filename=_MADX_TWISS_OUTPUT_FILE):
     t = madx_parser.parse_tfs_file(run_dir.join(filename))
     plots = []
     m = data.models[data.report]
@@ -510,7 +510,7 @@ def _generate_commands(util):
            res += f', {f[0]}={f[1]}'
         t = c[0]._type
         if t == _PTC_TRACK_COMMAND:
-            res += (f', dump=true, onetable=true file={_MADX_PTC_TRACK_DUMP_FILE}'
+            res += (f', dump=true, onetable=true file={_get_output_filename(t, c[0]._id, prefix=True)}'
                     f', extension=.{_TFS_FILE_EXTENSION}')
         res += ';\n'
     return res
