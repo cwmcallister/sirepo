@@ -110,7 +110,10 @@ class MadxOutputFileIterator(lattice.ModelIterator):
             # TODO(e-carlin): remove
             pkdp('mmmmmmmmm {}', model._id)
             k = _file_id(model._id, self.field_index)
-            self.result[k] = _get_output_filename(model._type, model._id)
+            self.result[k] = PKDict(
+                filename=_get_output_filename(model._type, model._id),
+                model_type=model._type
+            )
             self.result.keys_in_order.append(k)
 
     def start(self, model):
@@ -145,13 +148,17 @@ def _output_info(run_dir):
     pkdp('ffffffffffffff {}', files)
     res = []
     for k in files.keys_in_order:
+        # TODO(e-carlin): understand _FILE_ID_SEP and why it is needed
         id = k.split(_FILE_ID_SEP)
-        if run_dir.join(files[k]).exists():
-            f = files[k]
+        f = files[k]
+        if run_dir.join(f.filename).exists():
             res.append(PKDict(
-                modelKey='twissAnimation{}'.format(id[0]),
-                filename=f,
-                isHistogram='twiss' not in f, # TODO(e-carlin): need to share this knowledge better with creator of file
+                modelKey='{}{}'.format(
+                    'twissAnimation' if f.model_type == 'twiss' else 'ptcAnimation',
+                    id[0]
+                ),
+                filename=f.filename,
+                isHistogram='twiss' not in f.filename, # TODO(e-carlin): need to share this knowledge better with creator of file
             ))
     return res
 
@@ -276,8 +283,9 @@ def _add_call_and_observe_commands(data, util):
         _type='use',
         sequence=util.select_beamline().id,
     ))
+    if not util.find_first_command(data, 'ptc_create_layout'):
+        return
     # TODO(e-carlin): fix
-    """
     # insert call and ptc_observe commands after ptc_create_layout
     idx = next(i for i, cmd in enumerate(commands) if cmd._type == 'ptc_create_layout')
     commands.insert(idx + 1, PKDict(
@@ -288,7 +296,6 @@ def _add_call_and_observe_commands(data, util):
         _type='ptc_observe',
         place='{}$END'.format(util.select_beamline().name.upper()),
     ))
-    """
 
 
 def _code_var(variables):
@@ -318,10 +325,9 @@ def _extract_report_data(data, run_dir):
         if 'Animation' in  r:
             f = _file_name_for_animation(run_dir, r)
         return _extract_report_twissReport(data, run_dir, f)
-    return getattr(
-        pykern.pkinspect.this_module(),
-        '_extract_report_' + r,
-    )(data, run_dir)
+    elif r.startswith('ptcAnimation'):
+        return _extract_report_ptcAnimation(data, run_dir)
+    raise AssertionError(f'unkown report={r}')
 
 
 def _extract_report_bunchReport(data, run_dir):
