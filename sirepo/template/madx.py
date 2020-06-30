@@ -55,6 +55,8 @@ _FIELD_LABEL = PKDict(
 
 _PI = 4 * math.atan(1)
 
+_TFS_FILE_EXTENSION = 'tfs'
+
 _MADX_CONSTANTS = PKDict(
     pi=_PI,
     twopi=_PI * 2.0,
@@ -75,9 +77,7 @@ _MADX_PTC_PARTICLES_FILE = 'ptc_particles.madx'
 
 _MADX_PTC_TRACK_DUMP_FILE = 'ptc_track_dump'
 
-_MADX_PTC_TRACK_DUMP_FILE_EXTENSION = 'tfs'
-
-_MADX_TWISS_OUTPUT_FILE = 'twiss.tfs'
+_MADX_TWISS_OUTPUT_FILE = f'twiss.{_TFS_FILE_EXTENSION}'
 
 _METHODS = template_common.RPN_METHODS + []
 
@@ -107,7 +107,7 @@ class MadxOutputFileIterator(lattice.ModelIterator):
         # TODO(e-carlin): handle ptc_dump command
         if field_schema[1] == 'OutputFile':
             # TODO(e-carlin): share with _format_field_value() ?
-            filename = f'{model._type}{model._id}.tfs'
+            filename = f'{model._type}{model._id}.{_TFS_FILE_EXTENSION}'
             k = _file_id(model._id, self.field_index)
             self.result[k] = filename
             self.result.keys_in_order.append(k)
@@ -140,6 +140,7 @@ def _output_info(run_dir):
     # TODO(e-carlin): single letter var names
     data = simulation_db.read_json(run_dir.join(template_common.INPUT_BASE_NAME))
     files = LatticeUtil(data, _SCHEMA).iterate_models(MadxOutputFileIterator()).result
+    pkdp('ffffffffffffff {}', files)
     res = []
     for k in files.keys_in_order:
         id = k.split(_FILE_ID_SEP)
@@ -450,7 +451,7 @@ def _extract_report_ptcAnimation(data, run_dir):
     t = madx_parser.parse_tfs_file(
         run_dir.join(
             # POSIT: We are using the onetable option so madx appends one to the filename
-            f'{_MADX_PTC_TRACK_DUMP_FILE}one.{_MADX_PTC_TRACK_DUMP_FILE_EXTENSION}',
+            f'{_MADX_PTC_TRACK_DUMP_FILE}one.{_TFS_FILE_EXTENSION}',
         ),
     )
     return template_common.heatmap(
@@ -494,7 +495,7 @@ def _generate_commands(util):
         t = c[0]._type
         if t == 'ptc_track':
             res += (f', dump=true, onetable=true file={_MADX_PTC_TRACK_DUMP_FILE}'
-                    f', extension=.{_MADX_PTC_TRACK_DUMP_FILE_EXTENSION}')
+                    f', extension=.{_TFS_FILE_EXTENSION}')
         res += ';\n'
     return res
 
@@ -572,7 +573,7 @@ def _format_field_value(state, model, field, el_type):
         v = state.id_map[int(v)].name
     elif el_type == 'OutputFile':
         # TODO(e-carlin): discuss with pjm on how these shuold be named
-        v = f'"{model._type}{model._id}.tfs"'
+        v = f'"{model._type}{model._id}.{_TFS_FILE_EXTENSION}"'
     return [field, v]
 
 
